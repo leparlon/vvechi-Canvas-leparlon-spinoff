@@ -28,7 +28,19 @@ var myCockpit = new MyCockpit(yWorld,horizon,screenWidth,screenHeight);
  
 function draw(){
     var ctx = canvas.getContext('2d');
-    track.draw(canvas,ctx,myCockpit.x);
+   if (isTurningLeft == true)
+   {
+	track.draw(canvas,ctx,myCockpit.x, 0.01);
+   }
+   else
+   if (isTurninhRight == true)
+   {
+	track.draw(canvas,ctx,myCockpit.x, -0.01);
+   }
+   else
+   {
+	track.draw(canvas,ctx,myCockpit.x, 0.0);
+   }
    // myCar.draw(canvas,ctx);
     myCockpit.draw(canvas,ctx);
  }

@@ -91,10 +91,10 @@ function Track(yWorld,horizon, width, height){
         else segment.z = i*segsize;
         segment.shaded = i%2;
         if(i > 4 && i < 30){
-            segment.curve = 0.01
+            segment.curve = 0.005
         }
         if(i > 35 && i < 80){
-            segment.curve = -0.01
+            segment.curve = 0.005
         }
         if(i > 95){
             segment.curve = 0.005;
@@ -107,7 +107,7 @@ function Track(yWorld,horizon, width, height){
     var firstSegSize = segsize - segments[firstIndex];
     
     
-    this.draw = function(canvas,ctx, carX){
+    this.draw = function(canvas,ctx, carX, curvex){
         var img = document.getElementById('track');
         var imgdark = document.getElementById('trackdark');
         var y = canvas.height - 1;
@@ -128,7 +128,7 @@ function Track(yWorld,horizon, width, height){
             for(ypos = y; ypos > y + sizeOnScreen;  ypos--){
                 trackX +=  ddx;
                 if(zs[ypos] > 0.75){// car.z
-                    ddx += segments[curIndex].curve;
+                    ddx += curvex;
                 }
                 ctx.drawImage(drawImg,0,200,1,1,0,ypos,canvas.width,1);
                 ctx.drawImage(drawImg, 0, 220, drawImg.width,1, trackX - ((canvas.width/2 + carX)/zs[ypos]), ypos, canvas.width/zs[ypos],1);
