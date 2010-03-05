@@ -17,34 +17,39 @@ var leftKey = 188;
 var rightKey = 190;
 var screenWidth = 320;
 var screenHeight = 240;
+
+var Bushes = new Array();
+
+var CurveX = 0;
+var CurveXIncrease = 0.0001;
+var CurveXMax = 0.02;
  
 lastFrame = new Date().getTime();
 horizon = screenHeight/2;
 yWorld = - 80;
 var track = new Track(yWorld,horizon,screenWidth,screenHeight);
-var bush = new BushObject(2.0, yWorld,horizon);
+//var bush = new BushObject(2.0, yWorld,horizon, Math.ceil(320*Math.random()));
 //var myCar = new MyCar(yWorld,horizon,screenWidth,screenHeight);
 var myCockpit = new MyCockpit(yWorld,horizon,screenWidth,screenHeight);
+
+ for(i = 0; i < 30; i++)
+ {
+	Bushes[i] = new BushObject(2*Math.random(), yWorld,horizon, Math.ceil(320*Math.random()));
+ }
  
  
 function draw(){
     var ctx = canvas.getContext('2d');
-   if (isTurningLeft == true)
-   {
-	track.draw(canvas,ctx,myCockpit.x, 0.01);
-   }
-   else
-   if (isTurninhRight == true)
-   {
-	track.draw(canvas,ctx,myCockpit.x, -0.01);
-   }
-   else
-   {
-	track.draw(canvas,ctx,myCockpit.x, 0.0);
-   }
+
+    track.draw(canvas,ctx,myCockpit.x, CurveX);
+   // bush.draw(canvas,ctx,CurveX);
+     for(i = 0; i < 30; i++)
+     {
+	Bushes[i].draw(canvas,ctx,CurveX);
+     }
    // myCar.draw(canvas,ctx);
     myCockpit.draw(canvas,ctx);
-    bush.draw(canvas,ctx)
+    
  }
  
 document.onkeydown =function(e) {
@@ -100,18 +105,48 @@ document.onkeyup = function(e) {
         }
     }
     if(speed > 0){
-        if(isTurningLeft){
+        if(isTurningLeft)
+	{
             myCockpit.x -= turnAmount* dt;
+	    if (CurveX < CurveXMax)
+	    {
+		CurveX += 2*CurveXIncrease;
+	    }
         }
-        if(isTurninhRight){
-            myCockpit.x += turnAmount*dt;
-        }
+	else
+	{
+		if(isTurninhRight)
+		{
+		    myCockpit.x += turnAmount*dt;
+	            if (CurveX > -1*CurveXMax)
+	            {
+	        	CurveX -= 2*CurveXIncrease;
+	            }		  
+
+		}
+		else
+		{
+			 if (CurveX > 0)
+			 {
+			     CurveX -= CurveXIncrease;
+			 }
+			 if (CurveX < 0)
+			 {
+			     CurveX += CurveXIncrease;
+			 }
+		}
+	}
+	
     }
     pos = pos + speed * dt *speedScale;
     track.update(pos);
     myCockpit.x -= track.carSegment.curve*speed *100*dt;
     myCockpit.isBreaking = isBreaking;
-    bush.update(pos);
+     for(i = 0; i < 30; i++)
+     {
+	Bushes[i].update(pos/3.5);
+     }
+   // bush.update(pos/3.5);
     
  }
  

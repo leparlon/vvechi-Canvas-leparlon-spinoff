@@ -35,17 +35,18 @@ function MyCar(yWorld,horizon){
     }
 }
 
-function BushObject(posZ, horizon, yWorld){
+function BushObject(posZ, horizon, yWorld, X){
     this.z = posZ;
     this.initZ = posZ;
     this.yWorld = yWorld;
     this.horizon = horizon;
     this.objy;
+    this.initX = X;
     this.pos = 0;
     this.DebugPos = 0;
     var lastPos = 0;
     
-    this.draw = function(canvas, ctx)
+    this.draw = function(canvas, ctx, curvex)
     {
 	if (true/* this.z > 0.6516225000000001*/)
 	{
@@ -55,15 +56,23 @@ function BushObject(posZ, horizon, yWorld){
 		    this.objy= this.horizon;
 		}
 		bushimg = document.getElementById('bush')
+		ynew = parseInt(this.objy);
+		var sizeOnScreen =  ynew - (canvas.height-1);
+		trackX = canvas.width/2 ;
+
+		ddx -= curvex*this.objy*(sizeOnScreen);
+
+		trackX +=  ddx;
+	    
 		ctx.drawImage(bushimg, //image
 			0, //sx
 			0, //sy
 			bushimg.width, //sWidth
 			bushimg.height, //sHeight
-			120 - 8/this.z , //dx
-			this.objy - bushimg.width/(2*this.z),  //dy
+			trackX + 120 - bushimg.width/(2*this.z) + this.initX , //dx
+			this.objy - bushimg.height/(2*this.z),  //dy
 			bushimg.width/(2*this.z),  //dWidth
-			8/this.z); //dHeight
+			bushimg.height/(2*this.z)); //dHeight
 			//console.debug(this.objy - bushimg.width/(2*this.z));
 		//ctx.drawImage(bushimg,0,0,484,350,160 - 200/this.z ,objy - 242/this.z, 175/this.z, 200/this.z);
 	}
@@ -77,6 +86,8 @@ function BushObject(posZ, horizon, yWorld){
 	if (this.z < 0.35)
 	{
 	    this.z = this.initZ;
+	    this.initX =  Math.ceil(320*Math.random())
+	    
 	}
 	
     }
