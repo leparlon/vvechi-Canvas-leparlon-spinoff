@@ -34,7 +34,7 @@ var myCockpit = new MyCockpit(yWorld,horizon,screenWidth,screenHeight);
 
  for(i = 0; i < 30; i++)
  {
-	Bushes[i] = new BushObject(2*Math.random(), yWorld,horizon, Math.ceil(320*Math.random()));
+	Bushes[i] = new BushObject(2.0 + Math.random(), yWorld,horizon, 200-Math.ceil(400*Math.random()));
  }
  
  

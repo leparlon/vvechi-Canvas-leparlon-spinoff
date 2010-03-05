@@ -48,7 +48,7 @@ function BushObject(posZ, horizon, yWorld, X){
     
     this.draw = function(canvas, ctx, curvex)
     {
-	if (true/* this.z > 0.6516225000000001*/)
+	if ( this.z < 2.0516225000000001)
 	{
 		this.objy = canvas.height + ((yWorld/this.z) - (this.horizon) - 250);
 		if(this.objy < this.horizon)
@@ -60,7 +60,8 @@ function BushObject(posZ, horizon, yWorld, X){
 		var sizeOnScreen =  ynew - (canvas.height-1);
 		trackX = canvas.width/2 ;
 
-		ddx -= curvex*this.objy*(sizeOnScreen);
+		//ddx -= curvex*this.objy*(sizeOnScreen);
+		ddx -= curvex*(200);
 
 		trackX +=  ddx;
 	    
@@ -86,7 +87,7 @@ function BushObject(posZ, horizon, yWorld, X){
 	if (this.z < 0.35)
 	{
 	    this.z = this.initZ;
-	    this.initX =  Math.ceil(320*Math.random())
+	    this.initX =  200-Math.ceil(400*Math.random())
 	    
 	}
 	
