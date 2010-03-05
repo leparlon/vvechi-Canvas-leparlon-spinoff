@@ -22,6 +22,7 @@ lastFrame = new Date().getTime();
 horizon = screenHeight/2;
 yWorld = - 80;
 var track = new Track(yWorld,horizon,screenWidth,screenHeight);
+var bush = new BushObject(2.0, yWorld,horizon);
 //var myCar = new MyCar(yWorld,horizon,screenWidth,screenHeight);
 var myCockpit = new MyCockpit(yWorld,horizon,screenWidth,screenHeight);
  
@@ -43,6 +44,7 @@ function draw(){
    }
    // myCar.draw(canvas,ctx);
     myCockpit.draw(canvas,ctx);
+    bush.draw(canvas,ctx)
  }
  
 document.onkeydown =function(e) {
@@ -109,6 +111,7 @@ document.onkeyup = function(e) {
     track.update(pos);
     myCockpit.x -= track.carSegment.curve*speed *100*dt;
     myCockpit.isBreaking = isBreaking;
+    bush.update(pos);
     
  }
  
